@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Issue List{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Issues</h1>
+<div class="list-group">
+    {% for issue in object_list %}
+        <a href="{% url 'issue_detail' issue.pk %}" class="list-group-item list-group-item-action">
+            <h5>{{ issue.summary }}</h5>
+            <p>Status: {{ issue.status.name }} | Type: {{ issue.type.name }}</p>
+        </a>
+    {% empty %}
+        <p>No issues found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

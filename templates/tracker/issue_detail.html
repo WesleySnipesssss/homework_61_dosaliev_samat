@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}{{ object.summary }}{% endblock %}
+
+{% block content %}
+<h1>{{ object.summary }}</h1>
+<p><strong>Status:</strong> {{ object.status.name }}</p>
+<p><strong>Type:</strong> {{ object.type.name }}</p>
+<p><strong>Description:</strong></p>
+<p>{{ object.description }}</p>
+
+<a href="{% url 'issue_edit' object.pk %}" class="btn btn-primary">Edit</a>
+<a href="{% url 'issue_delete' object.pk %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'issue_list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}
