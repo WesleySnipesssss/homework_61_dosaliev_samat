@@ -9,7 +9,7 @@
 <p><strong>Description:</strong></p>
 <p>{{ object.description }}</p>
 
-<a href="{% url 'issue_edit' object.pk %}" class="btn btn-primary">Edit</a>
+<a href="{% url 'issue_update' object.pk %}" class="btn btn-primary">Edit</a>
 <a href="{% url 'issue_delete' object.pk %}" class="btn btn-danger">Delete</a>
 <a href="{% url 'issue_list' %}" class="btn btn-secondary">Back to List</a>
 {% endblock %}

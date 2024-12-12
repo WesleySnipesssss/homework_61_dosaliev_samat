@@ -16,7 +16,7 @@ class Issue(models.Model):
     summary = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.PROTECT)
-    types = models.ManyToManyField(Type)
+    type = models.ForeignKey('Type', on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
