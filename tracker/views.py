@@ -26,3 +26,4 @@ class IssueDeleteView(DeleteView):
     model = Issue
     template_name = 'tracker/issue_confirm_delete.html'
     success_url = reverse_lazy('issue_list')
+
