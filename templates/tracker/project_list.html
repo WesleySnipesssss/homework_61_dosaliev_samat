@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Project List{% endblock %}
+
+{% block content %}
+<h1>Projects</h1>
+<form method="get" class="mb-4">
+    <input type="text" name="search" class="form-control" placeholder="Search projects..." value="{{ request.GET.search }}">
+</form>
+
+{% if project_list %}
+    <ul class="list-group">
+        {% for project in project_list %}
+            <li class="list-group-item">
+                <a href="{% url 'project-detail' project.pk %}">{{ project.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="mt-3">
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary">Previous</a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary">Next</a>
+            {% endif %}
+        {% endif %}
+    </div>
+{% else %}
+    <p>No projects found.</p>
+{% endif %}
+{% endblock %}

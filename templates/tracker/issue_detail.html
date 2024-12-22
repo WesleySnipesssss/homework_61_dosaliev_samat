@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ object.summary }}{% endblock %}
+{% block title %}Issue Details{% endblock %}
 
 {% block content %}
-<h1>{{ object.summary }}</h1>
-<p><strong>Status:</strong> {{ object.status.name }}</p>
-<p><strong>Type:</strong> {{ object.type.name }}</p>
-<p><strong>Description:</strong></p>
-<p>{{ object.description }}</p>
+<h1>{{ issue.summary }}</h1>
+<p><strong>Description:</strong> {{ issue.description }}</p>
+<p><strong>Status:</strong> {{ issue.status }}</p>
+<p><strong>Types:</strong> {{ issue.types.all|join:", " }}</p>
+<p><strong>Due Date:</strong> {{ issue.due_date }}</p>
+<p><strong>Created At:</strong> {{ issue.created_at }}</p>
+<p><strong>Updated At:</strong> {{ issue.updated_at }}</p>
 
-<a href="{% url 'issue_update' object.pk %}" class="btn btn-primary">Edit</a>
-<a href="{% url 'issue_delete' object.pk %}" class="btn btn-danger">Delete</a>
-<a href="{% url 'issue_list' %}" class="btn btn-secondary">Back to List</a>
+<a href="{% url 'issue-update' pk=issue.pk %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'issue-delete' pk=issue.pk %}" class="btn btn-danger">Delete</a>
 {% endblock %}

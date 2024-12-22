@@ -1,16 +1,14 @@
 from django.urls import path
-from .views import (
-    IssueListView,
-    IssueDetailView,
-    IssueCreateView,
-    IssueUpdateView,
-    IssueDeleteView,
-)
+from . import views
 
 urlpatterns = [
-    path('', IssueListView.as_view(), name='issue_list'),
-    path('<int:pk>/', IssueDetailView.as_view(), name='issue_detail'),
-    path('create/', IssueCreateView.as_view(), name='issue_create'),
-    path('<int:pk>/update/', IssueUpdateView.as_view(), name='issue_update'),
-    path('<int:pk>/delete/', IssueDeleteView.as_view(), name='issue_delete'),
+    path('', views.ProjectListView.as_view(), name='project-list'),
+    path('project/<int:pk>/', views.ProjectDetailView.as_view(), name='project-detail'),
+    path('project/create/', views.ProjectCreateView.as_view(), name='project-create'),
+    path('project/<int:pk>/edit/', views.ProjectUpdateView.as_view(), name='project-update'),
+    path('project/<int:pk>/delete/', views.ProjectDeleteView.as_view(), name='project-delete'),
+    path('project/<int:pk>/issue/create/', views.IssueCreateView.as_view(), name='issue-create'),
+    path('issue/<int:pk>/', views.IssueDetailView.as_view(), name='issue-detail'),
+    path('issue/<int:pk>/edit/', views.IssueUpdateView.as_view(), name='issue-update'),
+    path('issue/<int:pk>/delete/', views.IssueDeleteView.as_view(), name='issue-delete'),
 ]

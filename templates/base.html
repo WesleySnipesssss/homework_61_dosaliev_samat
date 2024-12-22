@@ -9,16 +9,17 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'issue_list' %}">Issue Tracker</a>
+            <a class="navbar-brand" href="{% url 'project-list' %}">Issue Tracker</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'issue_list' %}">Home</a>
+                        <a class="nav-link" href="{% url 'project-list' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'issue_create' %}">Add Issue</a>
+                        <a class="nav-link" href="{% url 'project-create' %}">Add Project</a>
                     </li>
                 </ul>
+                <a href="{% url 'project-create' %}" class="btn btn-primary">Create Project</a>
             </div>
         </div>
     </nav>
