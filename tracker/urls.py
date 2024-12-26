@@ -11,4 +11,7 @@ urlpatterns = [
     path('issue/<int:pk>/', views.IssueDetailView.as_view(), name='issue-detail'),
     path('issue/<int:pk>/edit/', views.IssueUpdateView.as_view(), name='issue-update'),
     path('issue/<int:pk>/delete/', views.IssueDeleteView.as_view(), name='issue-delete'),
+    path('create/', views.create_project, name='create-project'),
+    path('edit/<int:project_id>/', views.edit_project, name='edit-project'),
+    path('delete/<int:project_id>/', views.delete_project, name='delete-project'),
 ]

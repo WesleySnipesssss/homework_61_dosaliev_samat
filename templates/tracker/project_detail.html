@@ -10,9 +10,9 @@
 <ul class="list-group">
     {% for issue in project.issue_set.all %}
         <li class="list-group-item">
-            <a href="{% url 'issue-detail' issue.pk %}">{{ issue.title }}</a>
-            <a href="{% url 'issue-update' issue.pk %}" class="btn btn-sm btn-warning">Edit</a>
-            <a href="{% url 'issue-delete' issue.pk %}" class="btn btn-sm btn-danger">Delete</a>
+            <a href="{% url 'issue-detail' pk=issue.pk %}">{{ issue.title }}</a>
+            <a href="{% url 'issue-update' pk=issue.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'issue-delete' pk=issue.pk %}" class="btn btn-sm btn-danger">Delete</a>
         </li>
     {% empty %}
         <p>No issues found for this project.</p>

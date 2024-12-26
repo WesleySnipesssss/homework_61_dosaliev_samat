@@ -4,6 +4,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Project, Issue
 from django.db.models import Q
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
+from .forms import ProjectForm
 
 class ProjectListView(ListView):
     model = Project
@@ -31,16 +33,28 @@ class ProjectCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy('project_detail', kwargs={'pk': self.object.pk})
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 class ProjectUpdateView(UpdateView):
     model = Project
     template_name = 'tracker/project_form.html'
     fields = ['name', 'description']
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(author=self.request.user)
+
 class ProjectDeleteView(DeleteView):
     model = Project
     template_name = 'tracker/project_confirm_delete.html'
     success_url = reverse_lazy('project-list')
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(author=self.request.user)
 
 
 class IssueCreateView(CreateView):
@@ -96,3 +110,41 @@ class IssueDeleteView(DeleteView):
 def issue_list(request):
     issues = Issue.objects.filter(is_deleted=False)
     return render(request, 'tracker/issue_list.html', {'issues': issues})
+
+@login_required
+def create_project(request):
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('project-list')
+    else:
+        form = ProjectForm()
+    return render(request, 'create_project.html', {'form': form})
+
+@login_required
+def edit_project(request, pk):
+    project = Project.objects.get(pk=pk)
+    if project.author != request.user:
+        return redirect('project-list')
+
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            return redirect('project-list')
+    else:
+        form = ProjectForm(instance=project)
+
+    return render(request, 'project_edit.html', {'form': form})
+
+@login_required
+def delete_project(request, pk):
+    project = Project.objects.get(pk=pk)
+    if project.author != request.user:
+        return redirect('project-list')
+    if request.method == 'POST':
+        project.delete()
+        return redirect('project-list')
+
+    return render(request, 'project_confirm_delete.html', {'project': project})
