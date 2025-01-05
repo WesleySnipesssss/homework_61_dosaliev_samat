@@ -1,23 +1,15 @@
-{% extends 'base.html' %}
-
-{% block title %}{{ project.name }}{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-<h1>{{ project.name }}</h1>
-<p>{{ project.description }}</p>
+  <h2>Проект: {{ project.name }}</h2>
+  <p>{{ project.description }}</p>
 
-<h2>Issues</h2>
-<ul class="list-group">
-    {% for issue in project.issue_set.all %}
-        <li class="list-group-item">
-            <a href="{% url 'issue-detail' pk=issue.pk %}">{{ issue.title }}</a>
-            <a href="{% url 'issue-update' pk=issue.pk %}" class="btn btn-sm btn-warning">Edit</a>
-            <a href="{% url 'issue-delete' pk=issue.pk %}" class="btn btn-sm btn-danger">Delete</a>
-        </li>
-    {% empty %}
-        <p>No issues found for this project.</p>
+  <h3>Участники:</h3>
+  <ul>
+    {% for member in project.members.all %}
+      <li>{{ member.username }}</li>
     {% endfor %}
-</ul>
+  </ul>
 
-<a href="{% url 'issue-create' project.pk %}" class="btn btn-primary mt-3">Create New Issue</a>
+  <a href="{% url 'manage-project-members' project.id %}">Управление участниками</a>
 {% endblock %}

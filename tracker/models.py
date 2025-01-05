@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.timezone import now
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 def validate_summary_length(value):
     if len(value) > 100:
@@ -31,6 +32,7 @@ class Project(models.Model):
     description = models.TextField(verbose_name="Описание", blank=True)
     created_at = models.DateTimeField(verbose_name="Дата создания", default=now)
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+    members = models.ManyToManyField(User, related_name="projects", blank=True)
 
     def __str__(self):
         return self.name

@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from .views import manage_project_members
 
 urlpatterns = [
     path('', views.ProjectListView.as_view(), name='project-list'),
@@ -14,4 +15,6 @@ urlpatterns = [
     path('create/', views.create_project, name='create-project'),
     path('edit/<int:project_id>/', views.edit_project, name='edit-project'),
     path('delete/<int:project_id>/', views.delete_project, name='delete-project'),
+    path('accounts/', include('accounts.urls')),
+    path('project/<int:pk>/members/', manage_project_members, name='manage-project-members'),
 ]

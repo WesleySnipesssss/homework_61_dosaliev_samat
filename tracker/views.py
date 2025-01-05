@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from .forms import ProjectForm
+from django.contrib.auth.models import User
 
 class ProjectListView(ListView):
     model = Project
@@ -31,7 +32,7 @@ class ProjectCreateView(CreateView):
     fields = ['name', 'start_date', 'end_date', 'description']
 
     def get_success_url(self):
-        return reverse_lazy('project_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('project-detail', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -116,11 +117,13 @@ def create_project(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         if form.is_valid():
-            form.save()
+            project = form.save(commit=False)
+            project.save()
+            project.members.add(request.user)
             return redirect('project-list')
-    else:
-        form = ProjectForm()
-    return render(request, 'create_project.html', {'form': form})
+        else:
+            form = ProjectForm()
+        return render(request, 'projects/project_form.html', {'form': form})
 
 @login_required
 def edit_project(request, pk):
@@ -148,3 +151,24 @@ def delete_project(request, pk):
         return redirect('project-list')
 
     return render(request, 'project_confirm_delete.html', {'project': project})
+
+
+@login_required
+def manage_project_members(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        user_id = request.POST.get('user_id')
+        user = get_object_or_404(User, id=user_id)
+        if action == 'add':
+            project.members.add(user)
+        elif action == 'remove':
+            project.members.remove(user)
+        return redirect('manage-project-members', pk=pk)
+
+    users = User.objects.exclude(id__in=project.members.values_list('id', flat=True))
+    return render(request, 'tracker/manage_members.html', {
+        'project': project,
+        'members': project.members.all(),
+        'users': users,
+    })

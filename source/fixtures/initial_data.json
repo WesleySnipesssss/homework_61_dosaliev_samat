@@ -1,0 +1,53 @@
+[
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "Project Manager"
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+      "name": "Team Lead"
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 3,
+    "fields": {
+      "name": "Developer"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "manager",
+      "password": "manager",
+      "email": "manager@example.com",
+      "groups": [1]
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "lead",
+      "password": "lead",
+      "email": "lead@example.com",
+      "groups": [2]
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "username": "dev",
+      "password": "dev",
+      "email": "dev@example.com",
+      "groups": [3]
+    }
+  }
+]
